@@ -11,9 +11,7 @@ on:
 
 jobs:
   build:
-    
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 14
@@ -26,3 +24,7 @@ jobs:
       run: ./gradlew build
     - name: jlinkZip with Gradle
       run: ./gradlew jlinkZip
+    - uses: actions/upload-artifact@v1
+      with:
+        name: image.zip
+        path: build/image.zip

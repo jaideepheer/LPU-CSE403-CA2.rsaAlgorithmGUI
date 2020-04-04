@@ -46,8 +46,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      # Setup tree
+      # Setup tree and 7z
       - run: sudo apt-get install tree
+      - run: sudo apt-get install p7zip-full
         
       # Get universal artifact
       - uses: actions/download-artifact@master
@@ -62,27 +63,21 @@ jobs:
         with:
           name: windows-latest
           path: windows
-      - uses: edgarrc/action-7zip@v1.0.4
-        with:
-          args: 7z a -tzip -mx9 release-windows.zip ./windows/*
+      - run: 7z a -tzip -mx9 release-windows.zip ./windows/*
       
       # Get linux artifact
       - uses: actions/download-artifact@master
         with:
           name: linux-latest
           path: linux
-      - uses: edgarrc/action-7zip@v1.0.4
-        with:
-          args: 7z a -tzip -mx9 release-linux.zip ./linux/*
+      - run: 7z a -tzip -mx9 release-linux.zip ./linux/*
       
       # Get macos artifact
       - uses: actions/download-artifact@master
         with:
           name: macos-latest
           path: macos
-      - uses: edgarrc/action-7zip@v1.0.4
-        with:
-          args: 7z a -tzip -mx9 release-macos.zip ./macos/*
+      - run: 7z a -tzip -mx9 release-macos.zip ./macos/*
       
       - run: tree .
       - uses: marvinpinto/action-automatic-releases@latest

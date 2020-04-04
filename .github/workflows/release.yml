@@ -47,6 +47,7 @@ jobs:
     needs: [build]
     steps:
       # Setup tree and 7z
+      - run: sudo apt-get update
       - run: sudo apt-get install tree
       - run: sudo apt-get install p7zip-full
         

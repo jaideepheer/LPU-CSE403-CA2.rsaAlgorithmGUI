@@ -14,11 +14,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
         with:
-          args: jlinkWithRunScripts
+          args: jlinkCustomZip
       - uses: actions/upload-artifact@master
         with:
           name: release-universal
-          path: build/image
+          path: build/image.zip
 
   pre-release:
     runs-on: ubuntu-latest
@@ -27,6 +27,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: release-universal
+        path: .
     - run: ls
     - uses: marvinpinto/action-automatic-releases@latest
       with:

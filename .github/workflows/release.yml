@@ -5,7 +5,6 @@ name: Release
 
 on:
   push:
-    branches: [ master ]
     tags:
       - release
 
@@ -71,7 +70,7 @@ jobs:
           prerelease: false # optional, default is true
           # Assets to upload to the release
           files: |
-            release-universal.zip
-            release-windows.zip
-            release-linux.zip
-            release-macos.zip
+            release-universal
+            release-windows
+            release-linux
+            release-macos

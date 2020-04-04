@@ -13,9 +13,6 @@ jobs:
   build:
     runs-on: ${{matrix.os}}
     steps:
-      # Setup tree
-      - run: sudo apt-get install tree
-        
       - uses: actions/checkout@v2
       - name: Setup Java JDK
         uses: actions/setup-java@v1.3.0
@@ -25,7 +22,6 @@ jobs:
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: ${{matrix.mode}}
-      - run: tree .
       - uses: actions/upload-artifact@master
         if: matrix.mode == 'jlinkCustomZip'
         with:

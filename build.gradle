@@ -37,3 +37,39 @@ dependencies {
     }
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+// Custom task
+task jlinkWithRunScripts {
+    group = "build"
+    description = "Custom jlinkZip"
+    dependsOn = ['jlink']
+
+    def workdir = "build/image"
+
+    // create script files
+    def winScript = new File(workdir, "run.bat")
+    if(winScript.exists()) winScript.delete()
+    winScript.createNewFile()
+    def linuxScript = new File(workdir, "run.sh")
+    if(!linuxScript.exists()) linuxScript.delete()
+    linuxScript.createNewFile()
+
+    doLast {
+        winScript.withWriterAppend{ w->
+            w << "start \"\" \"bin\\RSA GUI.bat\""
+        }
+        linuxScript.withWriterAppend {w->
+            w << "source './bin/RSA GUI'"
+        }
+    }
+}
+
+task jlinkCustomZip(type: Zip){
+    group = "build"
+    dependsOn  = ['jlinkWithRunScripts']
+    from 'build/image'
+    include '**/*'
+    archiveFileName = "image.zip"
+
+    destinationDirectory.set(file("build/"))
+}

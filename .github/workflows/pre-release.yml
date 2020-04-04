@@ -28,7 +28,7 @@ jobs:
       with:
         name: release-universal
         path: .
-    - run: ls
+    - run: mv image.zip release-universal.zip
     - uses: marvinpinto/action-automatic-releases@latest
       with:
         title : Automatic Latest Pre-release
@@ -40,4 +40,4 @@ jobs:
         prerelease: true # optional, default is true
         # Assets to upload to the release
         files: |
-          release-universal
+          release-universal.zip

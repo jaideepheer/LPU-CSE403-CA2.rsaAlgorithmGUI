@@ -5,9 +5,8 @@ name: Release
 
 on:
   push:
-    branches: [ master ]
     tags:
-      - release
+      - v*
 
 jobs:
   build:
@@ -85,11 +84,10 @@ jobs:
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
-          title : Release
           # GitHub secret token
           repo_token: ${{secrets.repo_token}}
           # Should this release be marked as a pre-release?
-          prerelease: true # optional, default is true
+          prerelease: false # optional, default is true
           # Assets to upload to the release
           files: |
             release-universal.zip

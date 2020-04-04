@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.beryx.jlink' version '2.17.2'
+}
+
+
+group 'jd.cse.lpu'
+version '1.0'
+
+sourceCompatibility = JavaVersion.VERSION_14
+
+javafx {
+    version = "14"
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+mainClassName = "$moduleName/RSAGUI.RSAGUI"
+
+jlink {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = 'RSA GUI'
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+    compile (group: 'org.controlsfx', name: 'controlsfx', version: '11.0.1')
+    {
+        exclude group: 'org.openjfx'
+    }
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

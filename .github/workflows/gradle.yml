@@ -1,12 +1,10 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Pre-release
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -24,7 +22,14 @@ jobs:
       run: ./gradlew build
     - name: jlinkZip with Gradle
       run: ./gradlew jlinkZip
-    - uses: actions/upload-artifact@v1
+    - uses: marvinpinto/action-automatic-releases@latest
       with:
-        name: image.zip
-        path: build/image.zip
+        # GitHub secret token
+        repo_token: ${{secrets.repo_token}}
+        # Git tag (for automatic releases)
+        automatic_release_tag: latest # optional
+        # Should this release be marked as a pre-release?
+        prerelease: true # optional, default is true
+        # Assets to upload to the release
+        files: |
+          build/image.zip

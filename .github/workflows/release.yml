@@ -51,6 +51,7 @@ jobs:
         with:
           name: universal
           path: .
+      - run: tree .
       - run: mv image.zip release-universal.zip
       
       # Get windows artifact
@@ -58,6 +59,7 @@ jobs:
         with:
           name: windows-latest
           path: windows
+      - run: tree .
       - uses: montudor/action-zip@v0.1.0
         with:
           args: zip -qq release-windows.zip -d ./windows
@@ -67,6 +69,7 @@ jobs:
         with:
           name: linux-latest
           path: linux
+      - run: tree .
       - uses: montudor/action-zip@v0.1.0
         with:
           args: zip -qq release-linux.zip -d ./linux
@@ -76,10 +79,12 @@ jobs:
         with:
           name: macos-latest
           path: macos
+      - run: tree .
       - uses: montudor/action-zip@v0.1.0
         with:
           args: zip -qq release-macos.zip -d ./macos
       
+      - run: tree .
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           title : Release

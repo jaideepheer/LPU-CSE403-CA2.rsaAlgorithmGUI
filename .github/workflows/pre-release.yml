@@ -35,7 +35,7 @@ jobs:
         # GitHub secret token
         repo_token: ${{secrets.repo_token}}
         # Git tag (for automatic releases)
-        automatic_release_tag: latest # optional
+        automatic_release_tag: pre-release # optional
         # Should this release be marked as a pre-release?
         prerelease: true # optional, default is true
         # Assets to upload to the release

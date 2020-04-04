@@ -26,8 +26,7 @@ jobs:
     steps:
     - uses: actions/download-artifact@master
       with:
-        name: release-universal
-    - run: ls
+        name: release-universal.zip
     - uses: marvinpinto/action-automatic-releases@latest
       with:
         title : Automatic Latest Pre-release

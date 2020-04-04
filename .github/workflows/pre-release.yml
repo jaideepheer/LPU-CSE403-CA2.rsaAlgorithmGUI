@@ -22,6 +22,7 @@ jobs:
 
   pre-release:
     runs-on: ubuntu-latest
+    needs: [build-jlink]
     steps:
     - uses: actions/download-artifact@master
       with:

@@ -44,17 +44,17 @@ task jlinkWithRunScripts {
     description = "Custom jlinkZip"
     dependsOn = ['jlink']
 
-    def workdir = "build/image"
-
-    // create script files
-    def winScript = new File(workdir, "run.bat")
-    if(winScript.exists()) winScript.delete()
-    winScript.createNewFile()
-    def linuxScript = new File(workdir, "run.sh")
-    if(!linuxScript.exists()) linuxScript.delete()
-    linuxScript.createNewFile()
-
     doLast {
+        def workdir = "build/image"
+
+        // create script files
+        def winScript = new File(workdir, "run.bat")
+        if(winScript.exists()) winScript.delete()
+        winScript.createNewFile()
+        def linuxScript = new File(workdir, "run.sh")
+        if(!linuxScript.exists()) linuxScript.delete()
+        linuxScript.createNewFile()
+
         winScript.withWriterAppend{ w->
             w << "start \"\" \"bin\\RSA GUI.bat\""
         }

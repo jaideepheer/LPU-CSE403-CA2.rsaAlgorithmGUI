@@ -64,13 +64,15 @@ jobs:
           name: windows-latest
           path: windows
       - run: 7z a -tzip -mx9 release-windows.zip ./windows/*
+      - run: tree
       
       # Get linux artifact
       - uses: actions/download-artifact@master
         with:
-          name: linux-latest
+          name: ubuntu-latest
           path: linux
       - run: 7z a -tzip -mx9 release-linux.zip ./linux/*
+      - run: tree
       
       # Get macos artifact
       - uses: actions/download-artifact@master
@@ -78,8 +80,8 @@ jobs:
           name: macos-latest
           path: macos
       - run: 7z a -tzip -mx9 release-macos.zip ./macos/*
-      
-      - run: tree .
+      - run: tree
+
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           title : Release

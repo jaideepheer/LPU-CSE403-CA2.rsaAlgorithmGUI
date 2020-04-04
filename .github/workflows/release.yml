@@ -23,12 +23,12 @@ jobs:
         with:
           arguments: ${{matrix.mode}}
       - uses: actions/upload-artifact@master
-        if: matrix.mode == jlinkCustomZip
+        if: matrix.mode == 'jlinkCustomZip'
         with:
           name: universal
           path: build/image.zip
       - uses: actions/upload-artifact@master
-        if: matrix.mode == jpackageImage
+        if: matrix.mode == 'jpackageImage'
         with:
           name: ${{matrix.os}}
           path: build/jpackage

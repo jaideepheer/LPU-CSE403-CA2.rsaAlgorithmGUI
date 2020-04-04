@@ -24,36 +24,39 @@ jobs:
 
   build-win:
     runs-on: windows-latest
-    - uses: actions/checkout@v2
-    - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
-      with:
-        args: jpackageImage
-    - uses: actions/upload-artifact@master
-      with:
-        name: release-windows
-        path: build/jpackage
+    steps:
+      - uses: actions/checkout@v2
+      - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+        with:
+          args: jpackageImage
+      - uses: actions/upload-artifact@master
+        with:
+          name: release-windows
+          path: build/jpackage
 
   build-linux:
     runs-on: ubuntu-latest
-    - uses: actions/checkout@v2
-    - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
-      with:
-        args: jpackageImage
-    - uses: actions/upload-artifact@master
-      with:
-        name: release-linux
-        path: build/jpackage
+    steps:
+      - uses: actions/checkout@v2
+      - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+        with:
+          args: jpackageImage
+      - uses: actions/upload-artifact@master
+        with:
+          name: release-linux
+          path: build/jpackage
 
   build-macos:
     runs-on: macos-latest
-    - uses: actions/checkout@v2
-    - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
-      with:
-        args: jpackageImage
-    - uses: actions/upload-artifact@master
-      with:
-        name: release-macos
-        path: build/jpackage
+    steps:
+      - uses: actions/checkout@v2
+      - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+        with:
+          args: jpackageImage
+      - uses: actions/upload-artifact@master
+        with:
+          name: release-macos
+          path: build/jpackage
 
   release:
     runs-on: ubuntu-latest

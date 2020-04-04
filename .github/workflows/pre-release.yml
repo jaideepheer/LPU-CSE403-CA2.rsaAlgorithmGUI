@@ -26,7 +26,8 @@ jobs:
     steps:
     - uses: actions/download-artifact@master
       with:
-        name: release-universal.zip
+        name: release-universal
+    - run: ls
     - uses: marvinpinto/action-automatic-releases@latest
       with:
         title : Automatic Latest Pre-release
@@ -38,4 +39,4 @@ jobs:
         prerelease: true # optional, default is true
         # Assets to upload to the release
         files: |
-          release-universal.zip
+          release-universal

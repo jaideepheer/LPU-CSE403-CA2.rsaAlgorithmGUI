@@ -8,13 +8,24 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-jlink:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+      - uses: actions/checkout@v2
+      - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+        with:
+          args: jlinkWithRunScripts
+      - uses: actions/upload-artifact@master
+        with:
+          name: release-universal
+          path: build/image
+
+  pre-release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@master
       with:
-        args: jlinkCustomZip
+        name: release-universal
     - uses: marvinpinto/action-automatic-releases@latest
       with:
         title : Automatic Latest Pre-release
@@ -26,4 +37,4 @@ jobs:
         prerelease: true # optional, default is true
         # Assets to upload to the release
         files: |
-          build/image.zip
+          release-universal.zip

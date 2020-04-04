@@ -1,0 +1,73 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Release
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - release
+
+jobs:
+  build-jlink:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+        with:
+          args: jlinkWithRunScripts
+      - uses: actions/upload-artifact@master
+        with:
+          name: release-universal
+          path: build/image
+
+  build-win:
+    runs-on: windows-latest
+    - uses: actions/checkout@v2
+    - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+      with:
+        args: jpackageImage
+    - uses: actions/upload-artifact@master
+      with:
+        name: release-windows
+        path: build/jpackage
+
+  build-linux:
+    runs-on: linux-latest
+    - uses: actions/checkout@v2
+    - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+      with:
+        args: jpackageImage
+    - uses: actions/upload-artifact@master
+      with:
+        name: release-linux
+        path: build/jpackage
+
+  build-macos:
+    runs-on: macos-latest
+    - uses: actions/checkout@v2
+    - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+      with:
+        args: jpackageImage
+    - uses: actions/upload-artifact@master
+      with:
+        name: release-macos
+        path: build/jpackage
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title : Release
+          # GitHub secret token
+          repo_token: ${{secrets.repo_token}}
+          # Should this release be marked as a pre-release?
+          prerelease: false # optional, default is true
+          # Assets to upload to the release
+          files: |
+            release-universal.zip
+            release-windows.zip
+            release-linux.zip
+            release-macos.zip

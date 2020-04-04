@@ -5,72 +5,91 @@ name: Release
 
 on:
   push:
+    branches: [ master ]
     tags:
       - release
 
 jobs:
-  build-jlink:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v2
-      - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.3.0
         with:
-          args: jlinkWithRunScripts
+          java-version: 14
+      - name: Gradle Command
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: ${{matrix.mode}}
       - uses: actions/upload-artifact@master
+        if: matrix.mode == jlinkCustomZip
         with:
-          name: release-universal
-          path: build/image
-
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
-        with:
-          args: jpackageImage
+          name: universal
+          path: build/image.zip
       - uses: actions/upload-artifact@master
+        if: matrix.mode == jpackageImage
         with:
-          name: release-windows
+          name: ${{matrix.os}}
           path: build/jpackage
-
-  build-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
-        with:
-          args: jpackageImage
-      - uses: actions/upload-artifact@master
-        with:
-          name: release-linux
-          path: build/jpackage
-
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
-        with:
-          args: jpackageImage
-      - uses: actions/upload-artifact@master
-        with:
-          name: release-macos
-          path: build/jpackage
-
+    strategy:
+       matrix:
+         mode: [jlinkCustomZip, jpackageImage]
+         os: [ubuntu-latest, windows-latest, macos-latest]
+         exclude:
+           - mode: jlinkCustomZip
+             os: windows-latest
+           - mode: jlinkCustomZip
+             os: macos-latest
+  
   release:
     runs-on: ubuntu-latest
-    needs: [build-jlink, build-windows, build-linux, build-macos]
+    needs: [build]
     steps:
+      # Get universal artifact
+      - uses: actions/download-artifact@master
+        with:
+          name: universal
+          path: .
+      - run: mv image.zip release-universal.zip
+      
+      # Get windows artifact
+      - uses: actions/download-artifact@master
+        with:
+          name: windows-latest
+          path: windows
+      - uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -qq release-windows.zip -d ./windows
+      
+      # Get linux artifact
+      - uses: actions/download-artifact@master
+        with:
+          name: linux-latest
+          path: linux
+      - uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -qq release-linux.zip -d ./linux
+      
+      # Get macos artifact
+      - uses: actions/download-artifact@master
+        with:
+          name: macos-latest
+          path: macos
+      - uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -qq release-macos.zip -d ./macos
+      
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           title : Release
           # GitHub secret token
           repo_token: ${{secrets.repo_token}}
           # Should this release be marked as a pre-release?
-          prerelease: false # optional, default is true
+          prerelease: true # optional, default is true
           # Assets to upload to the release
           files: |
-            release-universal
-            release-windows
-            release-linux
-            release-macos
+            release-universal.zip
+            release-windows.zip
+            release-linux.zip
+            release-macos.zip

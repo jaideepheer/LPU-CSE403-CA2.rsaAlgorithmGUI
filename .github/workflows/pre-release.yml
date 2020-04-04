@@ -27,6 +27,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: release-universal
+    - run: ls
     - uses: marvinpinto/action-automatic-releases@latest
       with:
         title : Automatic Latest Pre-release

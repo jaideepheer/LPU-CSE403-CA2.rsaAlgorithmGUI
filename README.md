@@ -1,6 +1,7 @@
 # CSE403 – CA2
 > Jaideep Singh Heer
 ---
+![Pre-release](https://github.com/jaideepheer/LPU-CSE403-CA2.rsaAlgorithmGUI/workflows/Pre-release/badge.svg)
 
 ### Question
 Write a program to encrypt message, 18, using RSA. Choose appropriate private key and public keys. Also, decrypt the message. Show your calculations and result.

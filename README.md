@@ -21,12 +21,21 @@ This file contains the core logic for generating the key-pairs as well as for en
 The `\source_code\src\main\java\RSAGUI` directory contains all the code required to build and present the application’s GUI as well as the entry point `main` function.
 The `main` function can be found in `\source_code\src\main\java\RSAGUI\RSAGUI.java` file.
 
+
+## Run The Program
+
 No Java installation is required to run the program, it has been compiled using `jlink`.
 
 To run the program,
- - On windows, double click the `\run.bat` file.
- - On linux/MAC, run the `\run.sh` file.
+ - Download the [`release-universal.zip`](https://github.com/jaideepheer/LPU-CSE403-CA2.rsaAlgorithmGUI/releases/download/latest/release-universal.zip) file from the [releases](https://github.com/jaideepheer/LPU-CSE403-CA2.rsaAlgorithmGUI/releases) page.
+ - Extract the zip file to wherever you like.
+ - On windows, double click the `run.bat` file.
+ - On linux/MAC, run the `run.sh` file.
  
+ 
+ If you wish to run a platform dependent build (an `.exe` for example), you can down any of the `release-<platform>.zip` files and find the executable in the `bin` folder after extracting the zip file.
+ 
+ 
 ## Screenshots
 
 ##### Generate Keypair
